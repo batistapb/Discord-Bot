@@ -1,6 +1,4 @@
-﻿// https://discord.com/oauth2/authorize?client_id=1389995857243410563&permissions=8&integration_type=0&scope=bot+applications.commands
-
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
