@@ -2,9 +2,9 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using DSharpPlus.SlashCommands; // Adicionado para suporte a slash commands
+using DSharpPlus.SlashCommands; 
+using DotNetEnv; // Biblioteca para carregar variáveis de ambiente
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +14,22 @@ class Program
     {
         try
         {
-            var token = File.ReadAllText("BotToken.txt").Trim(); // Carregue o token de um arquivo externo
+            // Carregue as variáveis de ambiente do arquivo .env
+            Env.Load();
+
+            var token = Environment.GetEnvironmentVariable("DISCORD_BOT_TOKEN");
+            if (string.IsNullOrEmpty(token))
+            {
+                Console.WriteLine("Token do bot não encontrado. Configure a variável de ambiente 'DISCORD_BOT_TOKEN'.");
+                return;
+            }
+
+            var guildId = Environment.GetEnvironmentVariable("DISCORD_GUILD_ID");
+            if (!ulong.TryParse(guildId, out var parsedGuildId))
+            {
+                Console.WriteLine("ID do servidor inválido. Configure a variável de ambiente 'DISCORD_GUILD_ID'.");
+                return;
+            }
 
             var discord = new DiscordClient(new DiscordConfiguration
             {
@@ -25,13 +40,13 @@ class Program
 
             var commands = discord.UseCommandsNext(new CommandsNextConfiguration
             {
-                StringPrefixes = new[] { "!" } // Prefixo para comandos
+                StringPrefixes = new[] { "!" }
             });
 
             commands.RegisterCommands<BotCommands>();
 
-            var slash = discord.UseSlashCommands(); // Adicionado para suporte a slash commands
-            slash.RegisterCommands<SlashCommands>(guildId: 1231040307328585738); // Substitua YOUR_GUILD_ID pelo ID do servidor
+            var slash = discord.UseSlashCommands();
+            slash.RegisterCommands<SlashCommands>(guildId: parsedGuildId);
 
             discord.ComponentInteractionCreated += OnComponentInteraction;
 
@@ -59,7 +74,7 @@ class Program
             var selectedItem = e.Values.FirstOrDefault();
             var guild = e.Guild;
             var user = e.User;
-            var member = await guild.GetMemberAsync(user.Id); // Retrieve the DiscordMember object
+            var member = await guild.GetMemberAsync(user.Id);
 
             var ticketChannel = await guild.CreateChannelAsync($"ticket-{selectedItem}-{user.Username}", DSharpPlus.ChannelType.Text);
 
