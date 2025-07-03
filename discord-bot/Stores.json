@@ -1,0 +1,28 @@
+{
+  "Loja A": [
+    {
+      "Name": "Produto X",
+      "Price": 150
+    },
+    {
+      "Name": "Produto Y",
+      "Price": 300
+    }
+  ],
+  "Loja B": [
+    {
+      "Name": "Produto Z",
+      "Price": 500
+    }
+  ],
+  "listateste": [
+    {
+      "Name": "stormseye",
+      "Price": 10000
+    },
+    {
+      "Name": "rosen hellflame",
+      "Price": 15000
+    }
+  ]
+}

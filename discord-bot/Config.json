@@ -1,0 +1,17 @@
+{
+  "Items": [
+    {
+      "Name": "Produto A",
+      "Price": 100
+    },
+    {
+      "Name": "Produto B",
+      "Price": 200
+    },
+    {
+      "Name": "Produto C",
+      "Price": 300
+    }
+  ],
+  "DefaultChannelId": 1231041518568210473
+}
